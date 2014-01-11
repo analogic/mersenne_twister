@@ -1,3 +1,4 @@
 packages/
 test/packages
+lib/packages
 pubspec.lock

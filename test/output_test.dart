@@ -1,5 +1,5 @@
 import 'package:unittest/unittest.dart';
-import '../mersenne_twister.dart';
+import 'package:mersenne_twister/mersenne_twister.dart';
 
 List<int> expected = [
     1791095845, 4282876139, 3093770124, 4005303368, 491263,
