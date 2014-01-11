@@ -1,7 +1,7 @@
 Mersenne Twister
 ================
 
-Dart implementation of 32 bit Mersenne twister PRNG (MT19937). Its tested against output
+Dart implementation of 32 bit Mersenne twister PRNG (MT19937). It is tested against output from other implementation.
 
 Usage
 -----
