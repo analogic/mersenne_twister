@@ -50,5 +50,13 @@ void main() {
     for(int i = 0; i < expected.length; i++) {
       expect(mt.extractNumber(), equals(expected[i])); 
     }
+    
+    expect(mt.nextBool() is bool, isTrue);
+    expect(mt.nextInt(25) is int, isTrue);
+    
+    for(int i = 0; i < 100; i++) {
+      expect(mt.nextInt(25) < 25, isTrue);
+      expect(mt.nextInt(25) >= 0, isTrue); 
+    }
   });      
 }

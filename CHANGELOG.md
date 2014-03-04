@@ -1,3 +1,9 @@
+## 0.0.4 (2014-03-04)
+
+- added math.Random api
+- missing "library ..."
+- doc
+
 ## 0.0.3 (2014-01-14)
 
 - drone

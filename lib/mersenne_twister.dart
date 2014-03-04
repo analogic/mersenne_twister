@@ -1,36 +1,69 @@
-import 'dart:typed_data';
+library mersenne_twister;
 
-class MersenneTwister {
-  Uint32List mt = new Uint32List(624);
-  int idx;
+import 'dart:typed_data';
+import 'dart:math' as math;
+
+/**
+ * 32 bit Mersenne Twister implementation
+ */
+class MersenneTwister implements math.Random {
+  Uint32List _mt = new Uint32List(624);
+  int _idx;
   
+  /**
+   * Creates Mersenne Twistter PRNG with defined [seed]
+   */
   MersenneTwister(int seed) {
-    idx = 0;
-    mt.fillRange(0, mt.length-1, 0);
-    mt[0] = seed;
-    for(int i = 1; i != mt.length; i++) {
-      mt[i] = (1812433253 * (mt[i-1] ^ (mt[i-1] >> 30)) + i) 
+    _idx = 0;
+    _mt.fillRange(0, _mt.length-1, 0);
+    _mt[0] = seed;
+    for(int i = 1; i != _mt.length; i++) {
+      _mt[i] = (1812433253 * (_mt[i-1] ^ (_mt[i-1] >> 30)) + i) 
           & 0xffffffff;
     }
   }
   
+  /**
+   * Generates a random boolean value.
+   */
+  bool nextBool() => 
+      extractNumber() % 2 == 1;
+  
+  /**
+   * Generates a positive random integer uniformly distributed on the range
+   * from 0, inclusive, to [max], exclusive.
+   * 
+   * Supports [max] values between 1 and ((1<<32) - 1) inclusive.
+   */
+  int nextInt(int max) => 
+      (extractNumber() / ((1<<32) - 1) * max).truncate();
+  
+  /**
+   * Not implemented yet
+   */
+  double nextDouble() => 
+      throw('Not implemented yet');
+  
+  /**
+   * Generates unsigned 32 bit integer
+   */
   int extractNumber() {
-    if(idx == 0) { generateNumbers(); }
-    int y = mt[idx];
+    if(_idx == 0) { _generateNumbers(); }
+    int y = _mt[_idx];
     y ^= y >> 11;
     y ^= (y << 7) & 2636928640;
     y ^= (y << 15) & 4022730752;
     y ^= y >> 18;
 
-    idx = (idx + 1) % mt.length;
+    _idx = (_idx + 1) % _mt.length;
     return y;
   }
  
-  void generateNumbers() {
-    for(int i = 0; i < mt.length; i++) {
-      int y = (mt[i] & 0x80000000) + (mt[(i + 1 ) % 624] & 0x7fffffff);
-      mt[i] = mt[(i + 397) % 624] ^ (y >> 1);
-      if(y % 2 != 0) { mt[i] ^= 2567483615; }; 
+  void _generateNumbers() {
+    for(int i = 0; i < _mt.length; i++) {
+      int y = (_mt[i] & 0x80000000) + (_mt[(i + 1 ) % 624] & 0x7fffffff);
+      _mt[i] = _mt[(i + 397) % 624] ^ (y >> 1);
+      if(y % 2 != 0) { _mt[i] ^= 2567483615; }; 
     }
   }
 }
