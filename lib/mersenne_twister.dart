@@ -3,6 +3,8 @@ library mersenne_twister;
 import 'dart:typed_data';
 import 'dart:math' as math;
 
+import 'package:fixnum/fixnum.dart'; // quick and dirty fix for dart2js
+
 /**
  * 32 bit Mersenne Twister implementation
  */
@@ -17,9 +19,12 @@ class MersenneTwister implements math.Random {
     _idx = 0;
     _mt.fillRange(0, _mt.length-1, 0);
     _mt[0] = seed;
+    
     for(int i = 1; i != _mt.length; i++) {
-      _mt[i] = (1812433253 * (_mt[i-1] ^ (_mt[i-1] >> 30)) + i) 
-          & 0xffffffff;
+      int s = _mt[i-1] ^ (new Int32(_mt[i-1]) >> 30).toUnsigned(2).toInt();
+      int ui = ((new Int32(1812433253) * new Int32(s)).toInt() & 0xffffffff);
+      
+      _mt[i] = (ui + i).toInt() & 0xffffffff;
     }
   }
   

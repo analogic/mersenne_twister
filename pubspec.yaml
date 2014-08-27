@@ -1,9 +1,11 @@
 name: mersenne_twister
-version: 0.0.4
+version: 0.0.5
 author: Analogic s.r.o. <info@analogic.cz>
 description: Dart implementation of Mersenne Twister PRNG
 homepage: https://github.com/analogic/mersenne_twister
 environment:
   sdk: '>=0.8.10+6 <2.0.0'
+dependencies:
+  fixnum: ">=0.9.0 <0.10.0"
 dev_dependencies:
   unittest: '>=0.9.0 <0.10.0'
